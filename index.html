@@ -138,15 +138,45 @@
             <div class="container px-5">
                 <h2 class="display-4 fw-bold text-dark">Únete a nuestra lista de espera</h2>
                 <p class="text-muted mb-5">Regístrate ahora y recibe nuestra guía gratuita sobre cómo mejorar la convivencia en el aula con el análisis de sociogramas.</p>
-                <form id="contactForm" action="https://tu-servicio-de-correo.com" method="POST">
+                <form id="contact-form" action="https://formspree.io/f/movageyg" method="POST">
                     <div class="form-floating mb-3">
                         <input class="form-control" id="email" type="email" name="email" placeholder="name@example.com" required />
                         <label for="email">Correo electrónico</label>
                     </div>
                     <div class="d-grid">
-                        <button class="btn btn-primary rounded-pill btn-lg" id="submitButton" type="submit">Únete y recibe tu guía gratis</button>
+                        <button class="btn btn-primary rounded-pill btn-lg" id="submitButton" type="submit">Únete a la lista de espera</button>
                     </div>
+                    <p id="form-status"></p>
                 </form>
+                
+                <script>
+                document.getElementById("contact-form").addEventListener("submit", async function(event) {
+                    event.preventDefault();
+                    var form = event.target;
+                    var status = document.getElementById("form-status");
+                    
+                    var data = new FormData(form);
+                    try {
+                        let response = await fetch(form.action, {
+                            method: form.method,
+                            body: data,
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        });
+                        if (response.ok) {
+                            status.innerHTML = "Gracias por unirte a la lista de espera!";
+                            form.reset();
+                        } else {
+                            status.innerHTML = "Hubo un problema al enviar el formulario. Inténtalo de nuevo.";
+                        }
+                    } catch (error) {
+                        status.innerHTML = "Hubo un error. Por favor, inténtalo de nuevo.";
+                    }
+                });
+                </script>
+                
+                
             </div>
         </section>
         <!-- Footer -->
